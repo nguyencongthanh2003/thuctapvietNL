@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+Register
+{% endblock title %}
+
+{% block content %}
+<div class="card card-body mx-auto my-4 auth-card shadow-sm">
+  <h1 class="display-4 text-center">Đăng ký</h1>
+  <form method="POST">
+    {% csrf_token %} {{ form|crispy }}
+    <div class="row">
+      <div class="col-6 pr-1">
+        <button class="btn btn-primary btn-block" type="submit">
+          Đăng ký
+        </button>
+      </div>
+      <div class="col-6 pl-1">
+        <button class="btn btn-danger btn-block" type="reset">Làm mới</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %}
+
+<style>
+  /* Background styling */
+  body {
+    font-family: 'Times New Roman', serif;
+    background: linear-gradient(135deg, #ff6f61, #ff9a8b);
+    color: #333;
+  }
+
+  /* Card styling */
+  .auth-card {
+    max-width: 500px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px;
+  }
+
+  /* Header styling */
+  .display-4 {
+    color: #ff6f61;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Button styling */
+  .btn-primary {
+    background: #ff6f61;
+    border: none;
+    transition: background 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background: #ff4d4d;
+  }
+
+  .btn-danger {
+    background: #ff9a8b;
+    border: none;
+    transition: background 0.3s ease;
+  }
+
+  .btn-danger:hover {
+    background: #ff6f61;
+  }
+</style>

@@ -1,0 +1,88 @@
+/* General Styling */
+body {
+  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  font-family: 'Times New Roman', Times, serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background: linear-gradient(135deg, #1d2671 0%, #c33764 100%);
+  border-bottom: 4px solid #ff5e5e;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.navbar-toggler {
+  border-color: #fff;
+}
+
+.navbar-nav .nav-item .nav-link {
+  color: #fff;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+  background-color: #ff5e5e;
+  color: #fff;
+}
+
+.input-group .form-control {
+  border-radius: 30px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.btn-success {
+  background-color: #ff5e5e;
+  border-color: #ff5e5e;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.btn-success:hover {
+  background-color: #c33764;
+  border-color: #c33764;
+}
+
+.dropdown-menu {
+  background-color: #1d2671;
+}
+
+.dropdown-item {
+  color: #fff;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.dropdown-item:hover {
+  background-color: #ff5e5e;
+  color: #fff;
+}
+
+.badge-secondary {
+  background-color: #ff5e5e;
+}
+
+.alert-success {
+  background-color: #fda085;
+  border-color: #f6d365;
+  color: #333;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+/* Additional Styling */
+h1, h4, .form-group label {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.img-fluid {
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}

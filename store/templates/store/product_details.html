@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load store_tags %}
+{% block title %}
+    {{ product.name }}
+{% endblock title %}
+{% block content %}
+<nav>
+  <ol class="breadcrumb mt-2" style="background: linear-gradient(135deg, #d3cce3, #e9e4f0); border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
+    <li class="breadcrumb-item">
+      <a href="{{ product.category.get_absolute_url }}" style="color: #333; text-decoration: none; transition: color 0.3s ease; font-family: 'Times New Roman', Times, serif; font-weight: bold;">{{ product.category }}</a>
+    </li>
+    <li class="breadcrumb-item active" style="color: #333; font-family: 'Times New Roman', Times, serif;">{{ product.name }}</li>
+  </ol>
+</nav>
+<div class="row mt-2 mb-4" style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(230, 230, 250, 0.8)); border-radius: 10px; padding: 20px; font-family: 'Times New Roman', Times, serif; color: #333;">
+  <div class="col-lg-4 col-md-6 col-12">
+    <img
+      src="{% thumbnail product.image 500x0 %}"
+      alt="{{ product.name }}"
+      class="img-fluid mx-auto d-block"
+      style="border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"
+    />
+  </div>
+  <div class="col-lg-8 col-md-6 col-12">
+    <h2 class="mt-md-0 mt-2" style="font-size: 2.5rem; margin-bottom: 1rem; font-weight: bold; color: #ff6f61; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">{{ product.name }}</h2>
+    <h3 class="font-weight-light" style="color: #ff6f61; font-size: 1.75rem; margin-bottom: 0.5rem; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);">{{ product.price }} VNĐ</h3>
+    <h4>
+      {% if product.availibility %}
+      <span class="badge badge-success" style="background-color: #28a745; color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">Còn Hàng</span>
+      {% else %}
+      <span class="badge badge-danger" style="background-color: #dc3545; color: #ffffff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">Hết hàng</span>
+      {% endif %}
+    </h4>
+    <p style="font-size: 1.1rem; color: #333; line-height: 1.6; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);">{{ product.description }}</p>
+    <p style="font-size: 1.1rem; color: #555; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);">Đã được mua bởi <b>{{ product.total_purchases }}</b> khách hàng{{ product.total_purchases|pluralize }}.</p>
+    {% if user.is_authenticated %}
+    {% if product.id in cart.keys %}
+    <form action="{% url 'cart:add' %}" method="POST" style="max-width: 400px; margin-top: 20px;">
+      {% csrf_token %}
+      <input type="hidden" name="product_id" value="{{ product.id }}">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text" style="background-color: #ff6f61; color: #ffffff;">Số lượng</span>
+        </div>
+        <input
+          type="number"
+          min="1"
+          name="quantity"
+          value="{{ cart|getattr:product.id }}"
+          required="required"
+          class="form-control"
+          style="border-radius: 0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);"
+        />
+        <div class="input-group-append btn-group">
+          <button class="btn btn-primary" type="submit" style="background: linear-gradient(135deg, #ff6f61, #f9b4d1); border: none; color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); transition: background 0.3s ease;">
+            <i class="fa fa-cart-plus fa-lg mr-2"></i> Sửa
+          </button>
+          <a href="{% url 'cart:remove' product.id %}" class="btn btn-danger" style="background: linear-gradient(135deg, #dc3545, #f7797d); border: none; color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); transition: background 0.3s ease;">
+            <i class="fa fa-times fa-lg mr-2"></i> Xóa
+          </a>
+        </div>
+      </div>
+    </form>
+    {% elif product.availibility %}
+    <form method="POST" action="{% url 'cart:add' %}" style="margin-top: 20px;">
+      {% csrf_token %}
+      <input type="hidden" name="quantity" value="1" />
+      <input type="hidden" name="product_id" value="{{ product.id }}" />
+      <button type="submit" class="btn btn-primary" style="background: linear-gradient(135deg, #ff6f61, #f9b4d1); border: none; color: #ffffff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); transition: background 0.3s ease;">
+        <i class="fa fa-cart-plus fa-lg mr-2"></i> Thêm vào giỏ
+      </button>
+    </form>
+    {% else %}
+    <button class="btn btn-primary" disabled style="background: #cccccc; color: #666666; cursor: not-allowed;">
+      <i class="fa fa-cart-plus fa-lg mr-2"></i> Thêm vào giỏ
+    </button>
+    {% endif %}
+    {% else %}
+    <a href="{% url 'login' %}" class="btn btn-primary" disabled style="background: #cccccc; color: #666666; cursor: not-allowed;">
+      <i class="fa fa-sign-in fa-lg mr-2"></i> Đăng nhập để thêm vào giỏ
+    </a>
+    {% endif %}
+  </div>
+</div>
+{% get_similar product.id product.price product.category %}
+{% endblock content %}

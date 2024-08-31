@@ -1,0 +1,107 @@
+{% load thumbnail %}
+<style>
+  /* Container styling for the similar products section */
+  .my-2 {
+    background: linear-gradient(135deg, #f0f4f8, #e0e0e0);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Title styling */
+  .font-weight-light.mb-0 {
+    font-size: 2rem;
+    color: #ff5e5e;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 2px solid #ff5e5e;
+    margin: 1rem 0;
+  }
+
+  /* Card styling */
+  .card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+
+  .card-img-top {
+    border-bottom: 3px solid #ff5e5e;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-body {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #ffffff, #f9f9f9);
+    color: #333;
+  }
+
+  .card-subtitle a {
+    color: #ff5e5e;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .card-subtitle a:hover {
+    color: #ff2d2d;
+  }
+
+  .badge-warning {
+    background: linear-gradient(135deg, #ff9a9e, #f9b4d1);
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+  }
+
+  .badge-warning:hover {
+    background: linear-gradient(135deg, #f9b4d1, #ff9a9e);
+  }
+
+  /* Empty state styling */
+  .font-weight-light {
+    text-align: center;
+    color: #555;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+  }
+</style>
+
+<h3 class="font-weight-light mb-0">Similar Products</h3>
+<hr />
+<div class="row my-2">
+  {% for product in products %}
+  <div class="col-lg-3 col-md-4 col-12">
+    <div class="card shadow-sm h-100">
+      <img
+        src="{% thumbnail product.image 0x150 %}"
+        alt="{{ product.name }}"
+        class="card-img-top img-aspect p-2"
+      />
+      <div class="card-body">
+        <h4 class="card-subtitle font-weight-light mb-1">
+          <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+        </h4>
+        <h5 class="mb-0">
+          <span class="badge badge-warning">{{ product.price }} VNĐ</span>
+        </h5>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <h5 class="font-weight-light">No similar products found.</h5>
+  </div>
+  {% endfor %}
+</div>

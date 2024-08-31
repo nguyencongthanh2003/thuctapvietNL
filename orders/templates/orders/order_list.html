@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your Orders</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family: 'Times New Roman', serif;
+        background: #f4f7f6;
+        color: #333;
+      }
+      h1 {
+        color: #ff5e5e;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+      }
+      .list-group-item {
+        background: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        transition: background 0.3s, box-shadow 0.3s;
+      }
+      .list-group-item:hover {
+        background: #f9f9f9;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      }
+      .badge-success {
+        background: #28a745;
+        color: #ffffff;
+      }
+      .badge-info {
+        background: #17a2b8;
+        color: #ffffff;
+      }
+      .pagination {
+        justify-content: center;
+      }
+      .page-item.active .page-link {
+        background: #007bff;
+        border-color: #007bff;
+        color: #ffffff;
+      }
+      .page-link {
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s, color 0.3s;
+      }
+      .page-link:hover {
+        background: #0056b3;
+        color: #ffffff;
+      }
+      .btn-secondary {
+        background: linear-gradient(135deg, #6c757d, #5a6268);
+        border: none;
+        color: #ffffff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s, color 0.3s;
+      }
+      .btn-secondary:hover {
+        background: linear-gradient(135deg, #5a6268, #4e555b);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container my-4">
+      <h1 class="font-weight-light mt-3">Your Orders</h1>
+      <hr />
+      <ul class="list-group my-3">
+        {% for order in orders %}
+        <li class="list-group-item">
+          <h5 class="mb-2">
+            {% if order.status == 'Delivered' %}
+            <span class="badge badge-success font-weight-light">
+              {{ order.status }}
+            </span>
+            {% else %}
+            <span class="badge badge-info font-weight-light">{{ order.status }}</span>
+            {% endif %}
+          </h5>
+          <h3>
+            <a href="{% url 'orders:details' order.id %}">Order id - {{ order.id }}</a>
+          </h3>
+          <h5>{{ order.total_price }} VNĐ</h5>
+          <p class="mb-0">{{ order.total_items }} Items</p>
+          <p class="mb-0">
+            Delivery Address - {{ order.address }}, {{ order.city }}, {{ order.pin_code }}
+          </p>
+          <p class="mb-0">Placed {{ order.created|timesince }} ago.</p>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-center border-white">
+          <h3 class="font-weight-light">You haven't placed any orders.</h3>
+          <a href="{% url 'store:product_list' %}" class="btn btn-secondary">
+            Continue Shopping
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+      {% with page_obj as page %}
+      <p>Page <b>{{ page.number }}</b> of <b>{{ page.paginator.num_pages }}</b></p>
+      <nav>
+        <ul class="pagination">
+          {% if page.has_previous %}
+          <li class="page-item">
+            <a href="?page={{ page.previous_page_number }}" class="page-link">
+              Previous
+            </a>
+          </li>
+          {% endif %}
+          <li class="page-item active"><a href="#" class="page-link">1</a></li>
+          {% if page.has_next %}
+          <li class="page-item">
+            <a href="?page={{ page.next_page_number }}" class="page-link">Next</a>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+      {% endwith %}
+    </div>
+  </body>
+</html>
